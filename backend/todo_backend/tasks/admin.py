@@ -1,7 +1,9 @@
 from django.contrib import admin
+from .models import Task
 
-from .models import Material, Product, MaterialProduct
 
-admin.site.register(Material)
-admin.site.register(Product)
-admin.site.register(MaterialProduct)
+class TaskAdmin(admin.ModelAdmin):
+    list = ('title', 'description', 'completed')
+
+
+admin.site.register(Task, TaskAdmin)

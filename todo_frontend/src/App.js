@@ -15,7 +15,7 @@ class App extends Component {
 
     async componentDidMount() {
       try {
-        const res = await fetch('http://158.160.49.18:8000/api/tasks/');
+        const res = await fetch('http://158.160.49.18/api/tasks/');
         const todoList = await res.json();
         this.setState({
           todoList
@@ -34,11 +34,11 @@ class App extends Component {
       this.toggle();
       if (item.id) {
         axios
-          .put(`http://158.160.49.18:8000/api/tasks/${item.id}/`, item)
+          .put(`http://158.160.49.18/api/tasks/${item.id}/`, item)
         return;  
       }
       axios
-        .post("http://158.160.49.18:8000/api/tasks/", item)
+        .post("http://158.160.49.18/api/tasks/", item)
     };
 
     createItem = () => {
@@ -87,7 +87,18 @@ class App extends Component {
             }`}
             title={item.description}
             >
-              {item.title}
+              title: {item.title}
+              <p></p>
+              author: {item.author}
+              <p></p>
+              image: {item.image}
+              <p></p>
+              description: {item.description}
+              <p></p>
+              pub_date: {item.pub_date}
+              <p></p>
+              assigned_to: {item.assigned_to}
+              <p></p>
             </span>
         </li>
       ));

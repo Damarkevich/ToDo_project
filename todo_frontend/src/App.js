@@ -1,10 +1,11 @@
 import React, { Component } from "react"
 import Modal from "./components/Modal"; 
 import axios from "axios";
+import './App.css'
 
 class App extends Component {
     state = {
-      viewCompleted: false,
+      viewUser: "John",
       activeItem: {
         title: "",
         description: "",
@@ -38,99 +39,134 @@ class App extends Component {
         return;  
       }
       axios
-        .post("http://158.160.49.18/api/tasks/", item)
+        .post("http://158.160.49.18/api/tasks/", item).then((response) => this.setState({todoList: [response.data, ...this.state.todoList]}));
     };
-
     createItem = () => {
-      const item = {title: "", description: "", completed: false };
+      const item = {title: "", description: "", author: "", completed: false };
       this.setState({ activeItem: item, modal: !this.state.modal });
     };
 
-    displayCompleted = status => {
-      if (status) {
-        return this.setState({ viewCompleted: true});
-      }
-      return this.setState({ viewCompleted: false});
+
+    displayUser = name => {
+      console.log("message", this.state.viewUser)
+      return this.setState({ viewUser: name});
     };
+
     renderTabList = () => {
       return (
         <div className="my-5 tab-list">
           <button 
-            onClick={() => this.displayCompleted(true)}
-            className={this.state.viewCompleted ? "active" : ""}
+            onClick={() => this.displayUser("John")}
+            className="tab-button"
           >
-            Complete
+            John
           </button>
           <button 
-            onClick={() => this.displayCompleted(false)}
-            className={this.state.viewCompleted ? "" : "active"}
+            onClick={() => this.displayUser("Luke")}
+            className="tab-button"
           >
-            Incomplete
+            Luke
+          </button>
+          <button 
+            onClick={() => this.displayUser("Matthew")}
+            className="tab-button"
+          >
+            Matthew
+          </button>
+          <button 
+            onClick={() => this.displayUser("Mark")}
+            className="tab-button"
+          >
+            Mark
           </button>
         </div>  
       );
     };
 
     renderItems = () => {
-      const { viewCompleted } = this.state;
+      const { viewUser } = this.state;
       const newItems = this.state.todoList.filter(
-        item => item.completed === viewCompleted
+        item => item.author === viewUser
       );
       return newItems.map(item => (
-        <li 
+        <li
           key={item.id}
-          className="list-group-item d-flex justify-content-between align-items-center"
-        >
-          <span 
+          className="list-group-item d-flex justify-content-between align-items-center">
+          <div
             className={`todo-title mr-2 ${
               this.state.viewCompleted ? "completed-todo" : ""
             }`}
             title={item.description}
             >
-              title: {item.title}
-              <p></p>
-              author: {item.author}
-              <p></p>
-              image: {item.image}
-              <p></p>
-              description: {item.description}
-              <p></p>
-              pub_date: {item.pub_date}
-              <p></p>
-              assigned_to: {item.assigned_to}
-              <p></p>
-            </span>
+              <div className="outer-container">
+                <div className="inner-container">
+                  <span className="title">{item.title}</span>
+                  <p></p>
+                  <span className="description">Description: {item.description} </span>
+                  <p></p>
+                  <span className="created">Created: {new Date(item.pub_date).toLocaleString(`de-DE`, { timeZone: `Europe/Berlin` })}</span>
+                </div>
+                <div className="inner-container1">
+                  <span>Author: {item.author}</span>
+                  <p></p>
+                  <span>Assigned to: {item.assigned_to}</span>
+                </div>
+              </div>
+          </div>
         </li>
       ));
     };
 
     render() {
+      console.log(this.state.todoList)
       return (
-        <main className="content">
-        <h1 className="text-white text-uppercase text-center my-4">Todo App</h1>
-        <div className="row">
-          <div className="col-md-6 col-sm-10 mx-auto p-0">
-            <div className="card p-3">
-              <div className="">
-                <button onClick={this.createItem} className="btn btn-success">Add Task</button>
+        <main className="content" style={{
+          backgroundImage: `url("https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80")`,
+          backgroundAttachment: "fixed",
+          backgroundSize: 'cover',
+          opacity: 0.9,
+          // height: '100vh'
+          }}>
+          <div className="titleApp">
+            <h1 className="text-white text-uppercase text-center my-4" style={{
+              textShadow: '2px 2px 4px black', fontSize: '100px', fontWeight: 'bold'
+            }}>Todo App</h1>
+          </div>
+          <br />
+          <div className="row">
+            <div className="col-md-6 col-sm-10 mx-auto p-0">
+              <div className="card p-3">
+                <div className="" style={{ textAlign: 'center' }}>
+                  <button onClick={this.createItem} className="btn"
+                  style={{
+                    height: "50px",
+                    width: "240px",
+                    border: "none",
+                    boxShadow: "2px 2px 6px rgba(0, 0, 0, 0.25)",
+                    ":active": { backgroundColor: "red"},
+                    borderRadius: "8px",
+                    }}
+                    >
+                      New Task</button>
+                </div>
+                {this.renderTabList()}
+                <ul className="list-group list-group-flush">
+                  {this.renderItems()}
+                </ul>
               </div>
-              {this.renderTabList()}
-              <ul className="list-group list-group-flush">
-                {this.renderItems()}
-              </ul>
             </div>
           </div>
-        </div>
-        {this.state.modal ? (
-          <Modal
-            activeItem={this.state.activeItem}
-            toggle={this.toggle}
-            onSave={this.handleSubmit}
-          />
-        ): null}
-      </main>
+          {this.state.modal ? (
+            <Modal
+              activeItem={this.state.activeItem}
+              toggle={this.toggle}
+              onSave={this.handleSubmit}
+            />
+          ): null}
+        </main>
       )
     }
   }
   
 export default App;
+

@@ -54,6 +54,26 @@ export default class CustomModal extends Component {
                             placeholder="Enter Todo description"
                             />
                         </FormGroup>
+                        <FormGroup>
+                            <Label for="author">Author</Label>
+                            <Input
+                            type="text"
+                            name="author"
+                            value={this.state.activeItem.author}
+                            onChange={this.handleChange}
+                            placeholder="Enter Todo author"
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="assigned_to">Assigned to</Label>
+                            <Input
+                            type="text"
+                            name="assigned_to"
+                            value={this.state.activeItem.assigned_to}
+                            onChange={this.handleChange}
+                            placeholder="Appoint responsible"
+                            />
+                        </FormGroup>
                         <FormGroup check>
                             <Label for="completed">
                                 <Input

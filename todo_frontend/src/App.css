@@ -10,6 +10,10 @@ body{
 .title{
   font-weight: bold;
   text-transform: uppercase;
+  white-space: nowrap; 
+  width: 80%; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 li:hover {
   background-color: #ddd;
@@ -49,26 +53,36 @@ button.tab-button:hover{
   border: none;
   box-shadow: 2px 2px 6px #000;
 }
-.outer-container{
+/* .outer-container{
   display: flex;
   align-content: space-between;
   flex-direction: row;
-}
-.inner-container{
-  flex-direction: column;
-  overflow: ellipsis;
-}
+} */
+
 .created{
   font-size: small;
 }
-.inner-container1{
-  margin-left: 7vw;
+.description{
+  
+  white-space: nowrap; 
+  width: 80%; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 
 button.tab-button:hover {
-  background-color: #000;
+  background-color: rgb(131, 107, 107);
   color: #fff;
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 300px auto;
+  grid-template-rows: 30px 30px 60px;
+  grid-gap: 10px;
+  padding: 10px;
+}
+
 
 
 

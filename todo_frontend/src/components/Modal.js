@@ -31,7 +31,7 @@ export default class CustomModal extends Component {
         const { toggle, onSave } = this.props;
         return (
             <Modal isOpen={true} toggle={toggle}>
-                <ModalHeader toggle={toggle}>Todo Item</ModalHeader>
+                <ModalHeader toggle={toggle}>Add New Task</ModalHeader>
                 <ModalBody>
                     <Form>
                         <FormGroup>

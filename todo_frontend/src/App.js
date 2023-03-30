@@ -93,25 +93,24 @@ class App extends Component {
           key={item.id}
           className="list-group-item d-flex justify-content-between align-items-center">
           <div
-            className={`todo-title mr-2 ${
+            className={`todo-title grid-container ${
               this.state.viewCompleted ? "completed-todo" : ""
             }`}
             title={item.description}
+
             >
-              <div className="outer-container">
-                <div className="inner-container">
-                  <span className="title">{item.title}</span>
-                  <p></p>
-                  <span className="description">Description: {item.description} </span>
-                  <p></p>
-                  <span className="created">Created: {new Date(item.pub_date).toLocaleString(`de-DE`, { timeZone: `Europe/Berlin` })}</span>
-                </div>
-                <div className="inner-container1">
-                  <span>Author: {item.author}</span>
-                  <p></p>
-                  <span>Assigned to: {item.assigned_to}</span>
-                </div>
-              </div>
+              <div className="title">{item.title}</div>
+
+              <div className="author">Author: {item.author}</div>
+
+              <div className="created">Created: {new Date(item.pub_date).toLocaleString(`de-DE`, { timeZone: `Europe/Berlin` })}</div>
+
+              <div className="assigned">Assigned to: {item.assigned_to}</div>
+
+              <div className="description" >Description: {item.description} </div>
+
+              
+
           </div>
         </li>
       ));

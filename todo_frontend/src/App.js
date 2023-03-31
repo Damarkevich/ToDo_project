@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import Modal from "./components/Modal"; 
+import Modal from "./components/createModal"; 
 import axios from "axios";
 import './App.css'
 
@@ -9,6 +9,8 @@ class App extends Component {
       activeItem: {
         title: "",
         description: "",
+        author: "",
+        assigned_to: "",
         completed: false
       },
       todoList: []
@@ -41,8 +43,15 @@ class App extends Component {
       axios
         .post("http://158.160.49.18/api/tasks/", item).then((response) => this.setState({todoList: [response.data, ...this.state.todoList]}));
     };
+
     createItem = () => {
-      const item = {title: "", description: "", author: "", completed: false };
+      const item = {
+        title: "",
+        description: "",
+        author: "",
+        assigned_to: "",
+        completed: false
+      };
       this.setState({ activeItem: item, modal: !this.state.modal });
     };
 
@@ -86,7 +95,7 @@ class App extends Component {
     renderItems = () => {
       const { viewUser } = this.state;
       const newItems = this.state.todoList.filter(
-        item => item.author === viewUser
+        item => item.assigned_to === viewUser
       );
       return newItems.map(item => (
         <li
@@ -109,7 +118,9 @@ class App extends Component {
 
               <div className="description" >Description: {item.description} </div>
 
+              <div className="completed" >Completed: {item.completed.toString()} </div>
               
+              <div className="due_date" >Due date: {new Date(item.due_date).toLocaleString(`de-DE`, { timeZone: `Europe/Berlin` })} </div>
 
           </div>
         </li>

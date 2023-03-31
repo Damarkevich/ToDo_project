@@ -9,7 +9,6 @@ import {
     FormGroup,
     Input,
     Label
-
 } from "reactstrap";
 
 export default class CustomModal extends Component {
@@ -54,24 +53,45 @@ export default class CustomModal extends Component {
                             placeholder="Enter Todo description"
                             />
                         </FormGroup>
+
                         <FormGroup>
                             <Label for="author">Author</Label>
                             <Input
-                            type="text"
+                            type={"select"}
                             name="author"
                             value={this.state.activeItem.author}
                             onChange={this.handleChange}
-                            placeholder="Enter Todo author"
-                            />
+                            >
+                                <option value="" hidden>Select an author</option>
+                                <option value={"John"}>John</option>
+                                <option value={"Luke"}>Luke</option>
+                                <option value={"Matthew"}>Matthew</option>
+                                <option value={"Mark"}>Mark</option>
+                            </Input>
                         </FormGroup>
                         <FormGroup>
                             <Label for="assigned_to">Assigned to</Label>
                             <Input
-                            type="text"
+                            type={"select"}
                             name="assigned_to"
                             value={this.state.activeItem.assigned_to}
                             onChange={this.handleChange}
-                            placeholder="Appoint responsible"
+                            >
+                                <option value="" hidden>Appoint responsible</option>
+                                <option value={"John"}>John</option>
+                                <option value={"Luke"}>Luke</option>
+                                <option value={"Matthew"}>Matthew</option>
+                                <option value={"Mark"}>Mark</option>
+                            </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="due_date">Due date</Label>
+                            <Input
+                            type="date"
+                            name="due_date"
+                            value={this.state.activeItem.due_date}
+                            onChange={this.handleChange}
+                            placeholder="Enter due date"
                             />
                         </FormGroup>
                         <FormGroup check>

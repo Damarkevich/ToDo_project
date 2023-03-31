@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Modal from "./components/createModal"; 
 import axios from "axios";
+import ModalTask from "./components/ModalTask";
 import './App.css'
 
 class App extends Component {
@@ -13,7 +14,8 @@ class App extends Component {
         assigned_to: "",
         completed: false
       },
-      todoList: []
+      todoList: [],
+      modalOpen: false
     };
 
     async componentDidMount() {
@@ -31,7 +33,11 @@ class App extends Component {
     toggle = () => {
       this.setState({ modal: !this.state.modal });
     };
-  
+
+    toggleModalTask = () => {
+      this.setState({ modalOpen: !this.state.modalOpen });
+    };
+
     //Responsible for saving the task
     handleSubmit = item => {
       this.toggle();
@@ -55,6 +61,19 @@ class App extends Component {
       this.setState({ activeItem: item, modal: !this.state.modal });
     };
 
+    viewItem = (item) => {
+      this.setState({
+        modalOpen: true,
+        activeItem: {
+          title: item.title,
+          created: new Date(item.pub_date).toDateString(),
+          description: item.description,
+          due_date: new Date(item.due_date).toDateString(),
+          author: item.author,
+          assigned_to: item.assigned_to,
+          completed: item.completed.toString()
+        }});
+    };
 
     displayUser = name => {
       console.log("message", this.state.viewUser)
@@ -100,7 +119,14 @@ class App extends Component {
       return newItems.map(item => (
         <li
           key={item.id}
-          className="list-group-item d-flex justify-content-between align-items-center">
+          className="list-group-item d-flex justify-content-between align-items-center"
+          style={{
+            width: "100%",
+            border: "none",
+            boxShadow: "2px 2px 6px rgba(0, 0, 0, 0.25)",
+            borderRadius: "20px",
+            }}
+            >
           <div
             className={`todo-title grid-container ${
               this.state.viewCompleted ? "completed-todo" : ""
@@ -108,19 +134,21 @@ class App extends Component {
             title={item.description}
 
             >
-              <div className="title">{item.title}</div>
+              <div className="title item-1">{item.title}</div>
 
-              <div className="author">Author: {item.author}</div>
+              <div className="author item-2">Author: {item.author}</div>
 
-              <div className="created">Created: {new Date(item.pub_date).toLocaleString(`de-DE`, { timeZone: `Europe/Berlin` })}</div>
+              <div className="created item-3">Due date: {new Date(item.due_date).toDateString()}</div>
 
-              <div className="assigned">Assigned to: {item.assigned_to}</div>
+              <div className="assigned item-4">Assigned to: {item.assigned_to}</div>
 
-              <div className="description" >Description: {item.description} </div>
+              <div className="description item-5" >Description: {item.description} </div>
 
-              <div className="completed" >Completed: {item.completed.toString()} </div>
-              
-              <div className="due_date" >Due date: {new Date(item.due_date).toLocaleString(`de-DE`, { timeZone: `Europe/Berlin` })} </div>
+              <button className="item-6 viewTask" onClick={()=>this.viewItem(item)} style={{
+                    border: "none",
+                    boxShadow: "2px 2px 6px rgba(0, 0, 0, 0.25)",
+                    borderRadius: "8px",
+                    }}>View Task</button>
 
           </div>
         </li>
@@ -137,6 +165,7 @@ class App extends Component {
           opacity: 0.9,
           // height: '100vh'
           }}>
+            <ModalTask activeItem={this.state.activeItem} modalOpen = {this.state.modalOpen} toggleModalTask = {this.toggleModalTask} />
           <div className="titleApp">
             <h1 className="text-white text-uppercase text-center my-4" style={{
               textShadow: '2px 2px 4px black', fontSize: '100px', fontWeight: 'bold'
